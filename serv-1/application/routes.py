@@ -2,6 +2,7 @@ from application import app, db
 from flask import render_template
 from flask import request
 import requests
+import json
 
 class Qrand(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -11,14 +12,15 @@ class Qrand(db.Model):
 
 @app.route('/')
 def index():
-    meal_response = requests.get("http://qrandom:5000/meal")
-    qran_response = requests.post("http://qrandom:5000/qran", data = meal_response.text)
-    whatudone_response = request.get("http://qrnadom:5000/whatudone")
-
+    qran_response = requests.get("http://qrandom-qran:5000/qran")
+    meal_response = requests.get("http://qrandom-meal:5000/meal")
+    
+    whatudone_response = requests.post("http://qrandom-whatudone:5000/whatudone", json = { 'qran' : qran_response.text, 'meal' : meal_response.text })
+    
     new_qran = Qrand(qran_num = qran_response.text, qran_meal = meal_response.text, qran_what = whatudone_response.text)
     db.session.add(new_qran)
     db.session.commit()
 
     all_qran = Qrand.query.all()
 
-    return render_template("index.html", meal = meal_response.text, qran=qran_response.text, whatudone=whatudone_response.txt, all_qran = all_qran)
+    return render_template("index.html", meal = meal_response.text, qran=qran_response.text, whatudone=whatudone_response.text, all_qran = all_qran)

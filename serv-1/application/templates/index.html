@@ -1,11 +1,22 @@
-<h1>Get a Quantum meal - cure your existential dread in 2 simple clicks!</h1>
+<h1>Get a Quantum meal - cure your existential dread!</h1>
 
-<h2>refresh to generate a new meal</h2>
-
+<h2>Refresh to generate a new meal</h2>
+<br>
 <p>
-    random number {{ qran }} advises {{ meal }}!
+    Your random number is: {{ qran }}!
     <br>
+    Your random meal is: {{ meal }}!
+    <br><br>
     Eating the advised meal have the following consequences:
     <br>
     {{ whatudone }}
+    <br>
+</p>
+<p>
+    <br>
+    {% for qran in all_qran %}
+    eating a {{ qran.qran_meal }} randomised by {{ qran.qran_num }} caused {{ qran.qran_what }}
+    <br>
+    {% endfor %}
+    <br>
 </p>

@@ -3,7 +3,7 @@ from flask import request, Response
 import random
 
 
-@app.route("/meal", methods=["POST"])
+@app.route("/meal", methods=["GET"])
 def get_meal():
     meals = [ 'pasta', 'burger', 'pizza', 'pbj' ]
     meal = request.data.decode("utf-8")
